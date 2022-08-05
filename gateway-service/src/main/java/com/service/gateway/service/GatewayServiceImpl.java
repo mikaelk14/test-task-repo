@@ -39,7 +39,6 @@ public class GatewayServiceImpl implements GatewayService {
         try {
             return decodingService.isValidSignature(signatureDto);
         } catch (Exception e) {
-
         } finally {
             redisRepository.remove(key);
         }
