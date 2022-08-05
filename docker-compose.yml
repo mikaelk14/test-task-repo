@@ -1,0 +1,41 @@
+version: "3.7"
+
+
+services:
+
+  redis:
+    container_name: redis
+    build:
+      dockerfile: ./docker/redis/DockerFile
+      context: .
+    ports:
+      - "6379:6379"
+    networks:
+      - inner
+
+
+  sign-service:
+    build:
+      context: .
+      dockerfile: docker/servicewithredis/DockerFile
+    container_name: application
+    ports:
+      - "8080:8080"
+    networks:
+      - outer
+      - inner
+
+  service-signer:
+    build:
+      context: .
+      dockerfile: --
+    container_name: application
+    networks:
+      - inner
+
+networks:
+  outer:
+    driver: bridge
+  inner:
+    driver: bridge
+
